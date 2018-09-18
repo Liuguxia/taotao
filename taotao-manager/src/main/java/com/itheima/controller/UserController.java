@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     //userService在别的项目，需要在build.gradle里面添加
-    @Reference
+    //@Reference
     private UserService userService;
 
     @RequestMapping("save")
