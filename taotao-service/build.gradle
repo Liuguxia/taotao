@@ -31,4 +31,7 @@ dependencies {
 
     //若UserService的实现，需要依赖interface，因为里面定义了service接口
     compile project(':taotao-interface')
+
+    //要想在service里面使用Mapper，那么service模块必须依赖mapper模块
+    compile project(':taotao-mapper')
 }

@@ -13,4 +13,9 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //由于pojo里面有jpa的注解，所以需要给taotao-pojo项目添加jpa的依赖
+    // https://mvnrepository.com/artifact/javax.persistence/persistence-api
+    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0'
+
 }
