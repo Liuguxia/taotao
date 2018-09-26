@@ -127,7 +127,7 @@
    			    onOpen : function(){
    			    	var _win = this;
    			    	$("ul",_win).tree({
-   			    		url:'/rest/item/cat',
+   			    		url:'/rest/item/cat',   //重点
    			    		method:'GET',
    			    		animate:true,
    			    		onClick : function(node){

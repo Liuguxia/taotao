@@ -12,6 +12,7 @@
 
 package com.itheima.pojo;
 
+import java.util.Arrays;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +54,7 @@ public class ItemCat implements java.io.Serializable {
 
     /** 该类目是否为父类目，1为true，0为false */
     @Column(name = "IS_PARENT", nullable = true)
-    private Byte[] isParent;
+    private Boolean isParent;
 
     /** 创建时间 */
     @Column(name = "CREATED", nullable = true)
@@ -163,19 +164,20 @@ public class ItemCat implements java.io.Serializable {
      * 
      * @return 该类目是否为父类目
      */
-    public Byte[] getIsParent() {
-        return this.isParent;
+    public Boolean getParent() {
+        return isParent;
     }
 
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
     /**
      * 设置该类目是否为父类目，1为true，0为false
-     * 
+     *
      * @param isParent
      *          该类目是否为父类目
      */
-    public void setIsParent(Byte[] isParent) {
-        this.isParent = isParent;
-    }
+
 
     /**
      * 获取创建时间
@@ -213,5 +215,34 @@ public class ItemCat implements java.io.Serializable {
      */
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+
+    //easyUI的树，正好是通过这个方法    获取节点的名称
+    public String getText(){
+
+        return name;
+    }
+
+    //判定isParent是否是父亲节点，如果是，就应该是关闭的状态；如果是儿子节点，就应该是打开状态
+    public String getState(){
+
+        return isParent?"closed":"open";
+    }
+
+
+    //toString
+    @Override
+    public String toString() {
+        return "ItemCat{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                ", sortOrder=" + sortOrder +
+                ", isParent=" + isParent +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
     }
 }
