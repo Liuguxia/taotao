@@ -4,4 +4,5 @@ include 'taotao-service'
 include 'taotao-manager'
 include 'taotao-interface'
 include 'taotao-mapper'
+include 'taotao-common'
 

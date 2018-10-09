@@ -29,7 +29,11 @@ dependencies {
 
 //dubbo 消息中间件
     compile group: 'io.dubbo.springboot',name: 'spring-boot-starter-dubbo',version:'1.0.0'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
 
     //taotao-manager项目依赖taotao-service项目(项目间的依赖)
     compile project(':taotao-interface')
+    compile project(':taotao-common')
 }
