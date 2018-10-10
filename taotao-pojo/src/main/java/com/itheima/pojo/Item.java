@@ -30,6 +30,8 @@ public class Item implements java.io.Serializable {
     /** 版本号 */
     private static final long serialVersionUID = 5745309751649626943L;
 
+    //private String desc;
+
     /** 商品id，同时也是商品编号 */
     @Id
     @Column(name = "ID", unique = true, nullable = false, length = 19)

@@ -1,6 +1,8 @@
 package com.itheima.service.Impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itheima.ItemService;
 import com.itheima.mapper.ItemDescMapper;
 import com.itheima.mapper.ItemMapper;
@@ -9,6 +11,7 @@ import com.itheima.pojo.ItemDesc;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 /*
     service要操作两张表,item和item_desc
@@ -51,5 +54,15 @@ public class ItemServiceImpl implements ItemService {
 
         return result;
 
+    }
+
+    @Override
+    public PageInfo<Item> list(int page, int rows) {
+
+        //必须要设置这一行，才能分页查询
+        PageHelper.startPage(page,rows);
+        List<Item> list = itemMapper.select(null);
+        return new PageInfo<Item>(list);
+        //return new PageInfo(list);
     }
 }
