@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ContentCategoryService {
     List<ContentCategory> getCategoryByParentId(Long id);
+
+    ContentCategory add(ContentCategory contentCategory);
 }

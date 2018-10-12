@@ -22,4 +22,11 @@ public class ContentCategoryController {
         List<ContentCategory> list = contentCategoryService.getCategoryByParentId(id);
         return list;
     }
+
+    @RequestMapping("/rest/content/category/add")
+    @ResponseBody
+    public ContentCategory add(ContentCategory contentCategory){
+        contentCategory=contentCategoryService.add(contentCategory);
+        return contentCategory;
+    }
 }

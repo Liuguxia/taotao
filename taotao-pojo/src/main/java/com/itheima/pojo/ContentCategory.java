@@ -53,7 +53,7 @@ public class ContentCategory implements java.io.Serializable {
 
     /** 该类目是否为父类目，1为true，0为false */
     @Column(name = "IS_PARENT", nullable = true)
-    private Byte[] isParent;
+    private Boolean isParent;
 
     /** 创建时间 */
     @Column(name = "CREATED", nullable = true)
@@ -163,7 +163,7 @@ public class ContentCategory implements java.io.Serializable {
      * 
      * @return 该类目是否为父类目
      */
-    public Byte[] getIsParent() {
+    public Boolean getIsParent() {
         return this.isParent;
     }
 
@@ -173,7 +173,7 @@ public class ContentCategory implements java.io.Serializable {
      * @param isParent
      *          该类目是否为父类目
      */
-    public void setIsParent(Byte[] isParent) {
+    public void setIsParent(Boolean isParent) {
         this.isParent = isParent;
     }
 
@@ -213,5 +213,15 @@ public class ContentCategory implements java.io.Serializable {
      */
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    //获得类目的名称
+    public String getText(){
+        return name;
+    }
+
+    //判断是否是节点
+    public String getState(){
+        return isParent?"closed":"open";
     }
 }
