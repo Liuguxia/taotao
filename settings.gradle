@@ -5,4 +5,5 @@ include 'taotao-manager'
 include 'taotao-interface'
 include 'taotao-mapper'
 include 'taotao-common'
+include 'taotao-portal'
 
