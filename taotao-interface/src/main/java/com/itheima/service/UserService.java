@@ -1,4 +1,4 @@
-package com.itheima;
+package com.itheima.service;
 
 import com.github.pagehelper.PageInfo;
 import com.itheima.pojo.User;

@@ -3,7 +3,7 @@ package com.itheima.service.Impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.itheima.UserService;
+import com.itheima.service.UserService;
 import com.itheima.mapper.UserMapper;
 import com.itheima.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;

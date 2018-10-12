@@ -2,7 +2,7 @@ package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
-import com.itheima.ItemService;
+import com.itheima.service.ItemService;
 import com.itheima.pojo.Item;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

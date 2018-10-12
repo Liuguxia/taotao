@@ -1,7 +1,7 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.itheima.ContentCategoryService;
+import com.itheima.service.ContentCategoryService;
 import com.itheima.pojo.ContentCategory;
 
 import org.springframework.stereotype.Controller;

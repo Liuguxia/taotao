@@ -1,7 +1,7 @@
 package com.itheima.service.Impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.itheima.ContentCategoryService;
+import com.itheima.service.ContentCategoryService;
 import com.itheima.mapper.ContentCategoryMapper;
 import com.itheima.pojo.ContentCategory;
 import org.springframework.beans.factory.annotation.Autowired;

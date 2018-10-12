@@ -1,7 +1,7 @@
 package com.itheima.service.Impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.itheima.ItemCatService;
+import com.itheima.service.ItemCatService;
 import com.itheima.mapper.ItemCatMapper;
 import com.itheima.pojo.ItemCat;
 import org.springframework.beans.factory.annotation.Autowired;

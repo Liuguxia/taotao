@@ -3,7 +3,7 @@ package com.itheima.service.Impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.itheima.ItemService;
+import com.itheima.service.ItemService;
 import com.itheima.mapper.ItemDescMapper;
 import com.itheima.mapper.ItemMapper;
 import com.itheima.pojo.Item;
