@@ -13,10 +13,7 @@
 package com.itheima.pojo;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 内容分类(TB_CONTENT_CATEGORY)
@@ -32,6 +29,7 @@ public class ContentCategory implements java.io.Serializable {
 
     /** 类目ID */
     @Id
+    @GeneratedValue(generator = "JDBC")     //主键策略
     @Column(name = "ID", unique = true, nullable = false, length = 19)
     private Long id;
 

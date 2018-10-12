@@ -48,6 +48,23 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 
         }
         mapper.updateByPrimaryKeySelective(parentCategory);
-        return parentCategory;
+
+        //为什么要返回一个对象
+        //1.如果不返回的话，分类的条目无法绑定对象。也就是添加好的分类，根本就没有数据绑定
+        //以后如果要对这个分类删除&更新，服务器是不知道的
+        //2.如果不返回数据，那么在页面上再进行其他操作，光标会乱跑
+
+        /*
+            结论：要返回对象，返回的对象还是当前操作的添加对象contentCategory
+         */
+        //return parentCategory;
+        return contentCategory;
+    }
+
+    @Override
+    public int update(ContentCategory contentCategory) {//参数只有id和name，剩下的其他都是默认值
+        int rows = mapper.updateByPrimaryKeySelective(contentCategory);//按主键
+        System.out.println("rows=" + rows);
+        return rows;
     }
 }

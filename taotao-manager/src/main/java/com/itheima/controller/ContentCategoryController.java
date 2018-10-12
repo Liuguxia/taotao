@@ -29,4 +29,11 @@ public class ContentCategoryController {
         contentCategory=contentCategoryService.add(contentCategory);
         return contentCategory;
     }
+
+    @RequestMapping("/rest/content/category/update")
+    @ResponseBody
+    public String update(ContentCategory contentCategory){//id,name
+        contentCategoryService.update(contentCategory);
+        return "success";
+    }
 }
