@@ -8,6 +8,7 @@ import com.itheima.pojo.Content;
 import com.itheima.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public int add(Content content) {
+        Date date=new Date();
+        content.setCreated(date);
+        content.setUpdated(date);
         return contentMapper.insert(content);
     }
 
@@ -32,5 +36,11 @@ public class ContentServiceImpl implements ContentService {
         content.setCategoryId((long) categoryId);
         List<Content> list =contentMapper.select(content);
         return new PageInfo<>(list);
+    }
+
+    @Override
+    public int edit(Content content) {
+        content.setUpdated(new Date());
+        return contentMapper.updateByPrimaryKeySelective(content);
     }
 }

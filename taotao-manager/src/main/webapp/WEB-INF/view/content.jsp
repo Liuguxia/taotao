@@ -38,6 +38,8 @@ $(function(){
 		}
 	});
 });
+
+//内容列表的toolbar
 var contentListToolbar = [{
     text:'新增',
     iconCls:'icon-add',

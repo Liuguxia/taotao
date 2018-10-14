@@ -38,4 +38,21 @@ public class ContentController {
         map.put("rows",pageInfo.getList());   //这一页的记录数
         return map;
     }
+
+    //修改
+    @RequestMapping("/rest/content/edit")
+    public Map<String,Integer> edit(Content content){
+        int result = contentService.edit(content);
+        System.out.println("result=" + result);
+
+        Map<String,Integer> map=new HashMap<>();
+        //表示更新成功
+        if (result>0){
+            map.put("status",200);
+        }else{
+            map.put("status",500);
+
+        }
+        return map;
+    }
 }
