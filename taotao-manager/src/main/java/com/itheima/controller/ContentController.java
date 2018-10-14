@@ -58,8 +58,10 @@ public class ContentController {
 
     //删除/rest/content/delete
     @RequestMapping("/rest/content/delete")
-    public Map<String,Integer> delete(long ids){
+    public Map<String,Integer> delete(String ids){
         System.out.println("ids=" + ids);
+
+
         int result = contentService.delete(ids);
         System.out.println("result=" + result);
         Map<String,Integer> map=new HashMap<>();

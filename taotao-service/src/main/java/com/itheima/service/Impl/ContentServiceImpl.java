@@ -45,8 +45,13 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public int delete(long ids) {
-        int result = contentMapper.deleteByPrimaryKey(ids);
+    public int delete(String ids) {//1&35,71
+        String[] idArray=ids.split(",");
+        int result =0;
+        for (String id:idArray){
+            result += contentMapper.deleteByPrimaryKey(Long.parseLong(id));
+        }
+
         return result;
     }
 }
