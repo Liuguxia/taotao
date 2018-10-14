@@ -43,4 +43,10 @@ public class ContentServiceImpl implements ContentService {
         content.setUpdated(new Date());
         return contentMapper.updateByPrimaryKeySelective(content);
     }
+
+    @Override
+    public int delete(long ids) {
+        int result = contentMapper.deleteByPrimaryKey(ids);
+        return result;
+    }
 }
