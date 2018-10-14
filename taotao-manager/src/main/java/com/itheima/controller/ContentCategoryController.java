@@ -36,4 +36,14 @@ public class ContentCategoryController {
         contentCategoryService.update(contentCategory);
         return "success";
     }
+
+    //删除分类管理/rest/content/category/delete
+    @RequestMapping("/rest/content/category/delete")
+    @ResponseBody
+    public String delete(ContentCategory contentCategory){//parentId: 86    id: 99
+        int result=contentCategoryService.delete(contentCategory);
+        System.out.println("result=" + result);
+        return "success";
+    }
+
 }

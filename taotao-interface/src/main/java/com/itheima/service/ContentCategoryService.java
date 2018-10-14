@@ -10,4 +10,6 @@ public interface ContentCategoryService {
     ContentCategory add(ContentCategory contentCategory);
 
     int update(ContentCategory contentCategory);
+
+    int delete(ContentCategory contentCategory);
 }
