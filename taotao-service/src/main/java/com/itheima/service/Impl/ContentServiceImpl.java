@@ -54,4 +54,13 @@ public class ContentServiceImpl implements ContentService {
 
         return result;
     }
+
+    @Override
+    public List<Content> selectByCategoryId(long cid) {
+        Content content=new Content();
+        //由于是按照分类id去查询的，所以一定要给这个对象的属性分类id赋值
+        content.setCategoryId(cid);
+        return contentMapper.select(content);
+
+    }
 }
