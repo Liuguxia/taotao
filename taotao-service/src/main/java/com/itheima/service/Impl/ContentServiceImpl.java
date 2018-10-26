@@ -22,11 +22,18 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private RedisTemplate<String ,String > redisTemplate;
 
+    //添加操作
     @Override
     public int add(Content content) {
         Date date=new Date();
         content.setCreated(date);
         content.setUpdated(date);
+
+        //先添加一条数据到数据库，然后再清空redis缓存（毕竟单纯查找的时候，redis为空，直接存数据库查找）
+        //然后再存到redis缓存中去
+//        ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
+//        opsForValue.set("bingAd","");
+
         return contentMapper.insert(content);
     }
 
@@ -49,6 +56,7 @@ public class ContentServiceImpl implements ContentService {
         return contentMapper.updateByPrimaryKeySelective(content);
     }
 
+    //删除操作
     @Override
     public int delete(String ids) {//1&35,71
         String[] idArray=ids.split(",");
@@ -57,9 +65,19 @@ public class ContentServiceImpl implements ContentService {
             result += contentMapper.deleteByPrimaryKey(Long.parseLong(id));
         }
 
+        //在删除mysql记录完毕之后，也跟着删除redis数据（删一条数据库数据，就清空redis所有缓存）
+        /*
+            数据库删除一条数据后，就会清空redis缓存，
+            此时，再查询前台页面，首先找redis缓存，但缓存被清空了，故又要找数据库，然后又将数据库的数据
+            存到redis缓存中去
+         */
+        ValueOperations<String, String> opForValues = redisTemplate.opsForValue();
+        opForValues.set("bingAd","");
         return result;
     }
 
+
+    //查询操作
     @Override
     //public List<Content> selectByCategoryId(long cid) {
     public String selectByCategoryId(long cid) {
