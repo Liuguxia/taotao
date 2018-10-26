@@ -13,6 +13,12 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+        /*
+            单纯的查询，都是直接先从redis缓存拿数据，有则直接返回给前台页面，
+            没有则从数据库查找，再存入redis缓存，然后再返回给页面
+
+            除单纯的查询外，增删改，都是先操作数据库，然后清空该字段的redis缓存
+         */
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -28,13 +34,13 @@ public class ContentServiceImpl implements ContentService {
         Date date=new Date();
         content.setCreated(date);
         content.setUpdated(date);
-
+        int result =contentMapper.insert(content);
         //先添加一条数据到数据库，然后再清空redis缓存（毕竟单纯查找的时候，redis为空，直接存数据库查找）
         //然后再存到redis缓存中去
 //        ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
 //        opsForValue.set("bingAd","");
 
-        return contentMapper.insert(content);
+        return result;
     }
 
     @Override
@@ -50,10 +56,17 @@ public class ContentServiceImpl implements ContentService {
         return new PageInfo<>(list);
     }
 
+    //更新用户
     @Override
     public int edit(Content content) {
         content.setUpdated(new Date());
-        return contentMapper.updateByPrimaryKeySelective(content);
+
+        int result = contentMapper.updateByPrimaryKeySelective(content);
+
+        ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
+        opsForValue.set("bingAd","");
+
+        return result;
     }
 
     //删除操作
