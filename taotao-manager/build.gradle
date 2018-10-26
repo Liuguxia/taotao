@@ -33,6 +33,11 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 
 
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+
+
+
     //taotao-manager项目依赖taotao-service项目(项目间的依赖)
     compile project(':taotao-interface')
     compile project(':taotao-common')

@@ -26,6 +26,8 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemDescMapper itemDescMapper;
 
+
+    //新增商品
     @Override
     public int addItem(Item item, String desc) {
         //先添加item表
@@ -65,4 +67,30 @@ public class ItemServiceImpl implements ItemService {
         return new PageInfo<Item>(list);
         //return new PageInfo(list);
     }
+
+    //查询一个商品的实现类的方法
+    @Override
+    public Item getItemById(long id) {
+
+        return itemMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Item> getItem() {
+        return itemMapper.selectAll();
+    }
+
+    @Override
+    public int deleteItem(long id) {
+        //按照主键来删除
+        int i = itemMapper.deleteByPrimaryKey(id);
+        return i;
+    }
+
+    @Override
+    public int updateItem(Item item) {
+        //updateByPrimaryKeySelective()方法是有选择的更新，选择想更新的属性即可
+        return itemMapper.updateByPrimaryKeySelective(item);
+    }
+
 }

@@ -12,5 +12,6 @@ public interface ContentService {
     int edit(Content content);
     int delete(String ids);
     //把大广告位的六张图片显示的接口
-    List<Content> selectByCategoryId(long cid);
+    //List<Content> selectByCategoryId(long cid);
+    String selectByCategoryId(long cid);
 }

@@ -40,21 +40,27 @@ public class IndexController {
         {}
         ]
      */
-        List<Content> contents = contentService.selectByCategoryId(categoryId);
-        System.out.println("contents=" + contents);
+        //List<Content> contents = contentService.selectByCategoryId(categoryId);
+        //System.out.println("contents=" + contents);
 
-        List<Map<String,Object>> list=new ArrayList<>();
-        //把从数据库查询出来的集合遍历，一个content就对应一个map集合
-        for (Content content:contents){
-            Map<String,Object> map=new HashMap<>();
-            map.put("src",content.getPic());
-            map.put("height",240);
-            map.put("width",670);
-            map.put("href",content.getUrl());
-            list.add(map);
-        }
+        String json = contentService.selectByCategoryId(categoryId);
+        System.out.println("json=" + json);
+
+//        List<Map<String,Object>> list=new ArrayList<>();
+//        //把从数据库查询出来的集合遍历，一个content就对应一个map集合
+//        for (Content content:contents){
+//            Map<String,Object> map=new HashMap<>();
+//            map.put("src",content.getPic());
+//            map.put("height",240);
+//            map.put("width",670);
+//            map.put("href",content.getUrl());
+//            list.add(map);
+//        }
+
+
+
         //把list ---->Gson|Fastjson ---->json字符串转化
-        String json = new Gson().toJson(list);
+        //String json = new Gson().toJson(list);
 
         model.addAttribute("list",json);
 
