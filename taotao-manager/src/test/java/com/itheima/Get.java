@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Get {
     @Test
-    public void testGet{
+    public void testGet(){
         try {
             CloseableHttpClient httpClient=HttpClients.createDefault();
             String uri="http://www.baidu.com";
@@ -29,7 +29,7 @@ public class Get {
 
 
     @Test
-    public void testGet1{
+    public void testGet1(){
         //创建一个客户端
         CloseableHttpClient httpClient=HttpClients.createDefault();
         //uri
