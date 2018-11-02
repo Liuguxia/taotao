@@ -4,9 +4,11 @@ import com.github.pagehelper.PageInfo;
 import com.itheima.pojo.User;
 
 public interface UserService {
-    void save();
+    Boolean check(String param,int type);
 
-    User selectOne(long id);
-
-    PageInfo<User> findByPage(int currentPage, int pageSize);
+//    void save();
+//
+//    User selectOne(long id);
+//
+//    PageInfo<User> findByPage(int currentPage, int pageSize);
 }

@@ -6,4 +6,6 @@ include 'taotao-interface'
 include 'taotao-mapper'
 include 'taotao-common'
 include 'taotao-portal'
+include 'taotao-sso-service'
+include 'taotao-sso-web'
 
