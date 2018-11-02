@@ -6,6 +6,8 @@ import com.itheima.pojo.User;
 public interface UserService {
     Boolean check(String param,int type);
 
+    String selectUser(String ticket);
+
 //    void save();
 //
 //    User selectOne(long id);

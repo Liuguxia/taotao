@@ -25,4 +25,22 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(true);
     }
+
+    /*
+       实现根据ticket查询用户http://sso.taotao.com/user/{ticket}
+       示例：http://sso.taotao.com/user/fe5cb546aeb3ce1bf37abcb08a40493e
+       其中，ticket：fe5cb546aeb3ce1bf37abcb08a40493e
+     */
+    @GetMapping("/user/{ticket}")
+    public ResponseEntity<String> selectUser(@PathVariable String ticket){
+        try {
+            String result = userService.selectUser(ticket);
+
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("用户未登录");
+    }
+
 }

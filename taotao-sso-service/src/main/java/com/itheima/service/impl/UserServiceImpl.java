@@ -5,6 +5,7 @@ import com.itheima.mapper.UserMapper;
 import com.itheima.pojo.User;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 @Service
@@ -12,6 +13,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     /*
         检查给的参数是否存在，true存在，false不存在
@@ -36,5 +39,12 @@ public class UserServiceImpl implements UserService {
         List<User> list = userMapper.select(user);
 
         return list.size()>0;
+    }
+
+    @Override
+    public String selectUser(String ticket) {
+        //这里从redis缓存中获取用户的信息
+        String key="iit_"+ticket;
+        return redisTemplate.opsForValue().get(key);
     }
 }
