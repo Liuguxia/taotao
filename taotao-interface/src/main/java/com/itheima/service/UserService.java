@@ -8,6 +8,11 @@ public interface UserService {
 
     String selectUser(String ticket);
 
+    /*
+        注册用户
+     */
+    int addUser(User user);
+
 //    void save();
 //
 //    User selectOne(long id);

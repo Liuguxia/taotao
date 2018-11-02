@@ -5,6 +5,7 @@ import com.itheima.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,16 +16,38 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user/check/{param}/{type}")
-    public ResponseEntity<Boolean> check(@PathVariable String param,@PathVariable int type){
+    public ResponseEntity<String> check(@PathVariable String param,@PathVariable int type,String callback){
         try {
+            System.out.println("要检测的用户名是否存在" + param + ":" + type);
             Boolean exist = userService.check(param, type);
-            return ResponseEntity.ok(exist);
+
+            String result="";
+
+            if (!StringUtils.isEmpty(callback)){
+                result=callback+"("+exist+")";
+            }else {
+                result=exist+"";
+            }
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(true);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+
+//    @GetMapping("/user/check/{param}/{type}")
+//    public ResponseEntity<Boolean> check(@PathVariable String param,@PathVariable int type){
+//        try {
+//            System.out.println("要检测的用户名是否存在" + param + ":" + type);
+//            Boolean exist = userService.check(param, type);
+//            return ResponseEntity.ok(exist);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(true);
+//    }
 
     /*
        实现根据ticket查询用户http://sso.taotao.com/user/{ticket}

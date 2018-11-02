@@ -7,6 +7,7 @@ import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +39,10 @@ public class UserServiceImpl implements UserService {
         }
         List<User> list = userMapper.select(user);
 
-        return list.size()>0;
+        //false:表示不能用了，已经被占用
+        //true:表示可以使用
+
+        return list.size()>0?false:true;
     }
 
     @Override
@@ -47,4 +51,11 @@ public class UserServiceImpl implements UserService {
         String key="iit_"+ticket;
         return redisTemplate.opsForValue().get(key);
     }
+
+    @Override
+    public int addUser(User user) {
+        return 0;
+    }
+
+
 }

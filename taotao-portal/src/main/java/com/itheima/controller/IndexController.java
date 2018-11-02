@@ -6,6 +6,7 @@ import com.itheima.pojo.Content;
 import com.itheima.service.ContentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -19,6 +20,14 @@ public class IndexController {
     @Reference
     private ContentService contentService;
 
+    //www.taotoa.com/register.html
+    @RequestMapping("/page/{pageName}")
+    public String page(@PathVariable String pageName){
+
+        return pageName;
+    }
+
+    //www.taotao.com
     @RequestMapping("/")
     public String index(Model model){
         //要把大广告位的6张图片查询出来
