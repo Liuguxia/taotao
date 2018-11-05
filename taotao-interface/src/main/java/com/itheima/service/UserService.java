@@ -13,6 +13,7 @@ public interface UserService {
      */
     int addUser(User user);
 
+    String login(User user);
 //    void save();
 //
 //    User selectOne(long id);

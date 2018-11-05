@@ -57,5 +57,10 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    @Override
+    public String login(User user) {
+        return null;
+    }
+
 
 }
