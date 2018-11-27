@@ -3,12 +3,18 @@ package com.itheima.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.gson.Gson;
 import com.itheima.pojo.Content;
+import com.itheima.pojo.User;
 import com.itheima.service.ContentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +22,9 @@ import java.util.Map;
 
 @Controller
 public class IndexController {
+
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
     @Reference
     private ContentService contentService;
@@ -29,7 +38,29 @@ public class IndexController {
 
     //www.taotao.com
     @RequestMapping("/")
-    public String index(Model model){
+    public String index(Model model, HttpServletRequest request){
+        System.out.println("要查询的首页广告的数据出来了~~~~");
+
+        //在这里获取ticket，然后到redis里面去查询用户数据，然后放到页面显示就好了
+        Cookie[] cookies = request.getCookies();
+        if (cookies!=null){
+            for(Cookie cookie:cookies){
+                String name = cookie.getName();
+                System.out.println("name =  " + name);
+                if ("ticket".equals(name)){
+
+                    String key = cookie.getValue();
+                    //对象：{"username":zahngsan,"password":123}
+                    System.out.println(name + "  =  " + key);
+
+                    String useInfo = redisTemplate.opsForValue().get(key);
+                    User user = new Gson().fromJson(useInfo, User.class);
+                    model.addAttribute("user",user);
+                    break;
+                }
+            }
+        }
+
         //要把大广告位的6张图片查询出来
         int categoryId=89;
     /*

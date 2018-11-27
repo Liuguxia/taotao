@@ -68,13 +68,16 @@ public class UserController {
             Cookie cookie = new Cookie("ticket",ticket);
             //cookie有效期是7天
             cookie.setMaxAge(60 * 60*24*7);
+            cookie.setPath("/");
             //把cookie抛给浏览器response
             response.addCookie(cookie);
 
             System.out.println("1");
             map.put("status","200");
             System.out.println("2");
-            map.put("succes","http://www.baidu.com");
+            //map.put("succes","http://www.baidu.com"); 少写一个s，应为success，很致命
+            //map.put("success","http://www.taotao.com");
+            //表示登录成功，跳转的位置
             map.put("success","http://www.taotao.com");
             System.out.println("3");
 
