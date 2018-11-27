@@ -43,6 +43,8 @@
 </div>
 <div class="m psearch " id="plist">
 <ul class="list-h clearfix" tpl="2">
+
+	<%--这里是遍历当前这一页的集合数据 --%>
 <c:forEach items="${page.list}" var="item">
 <li class="item-book" bookid="11078102">
 	<div class="p-img">
