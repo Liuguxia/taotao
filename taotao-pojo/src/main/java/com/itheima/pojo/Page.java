@@ -263,5 +263,20 @@ public class Page <T> implements Serializable {
 			System.out.println("开始页:"+page.getLpage()+"__当前页："+page.getCurrentpage()+"__结束页"+page.getRpage()+"____总页数："+page.getLast());
 	}
 
+	@Override
+	public String toString() {
+		return "Page{" +
+				"currentpage=" + currentpage +
+				", total=" + total +
+				", size=" + size +
+				", next=" + next +
+				", list=" + list +
+				", last=" + last +
+				", lpage=" + lpage +
+				", rpage=" + rpage +
+				", start=" + start +
+				", offsize=" + offsize +
+				'}';
+	}
 }
 
