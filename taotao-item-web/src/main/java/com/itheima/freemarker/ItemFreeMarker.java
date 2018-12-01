@@ -57,7 +57,7 @@ public class ItemFreeMarker {
 
 
         //五：指定html网页输出到哪个位置去
-        Writer out=new FileWriter("E:\\taotao\\"+message+".html");
+        Writer out=new FileWriter("E:\\taotao\\item\\"+message+".html");
 
         //六：生成网页，参数一：动态数据，参数二，输出对象
         template.process(root,out);  //process,加工，处理
