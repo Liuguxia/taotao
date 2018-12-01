@@ -9,6 +9,7 @@ import com.itheima.mapper.ItemMapper;
 import com.itheima.pojo.Item;
 import com.itheima.pojo.ItemDesc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,8 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemDescMapper itemDescMapper;
 
-
+    @Autowired
+    private JmsMessagingTemplate jms;
     //新增商品
     @Override
     public int addItem(Item item, String desc) {
@@ -53,6 +55,9 @@ public class ItemServiceImpl implements ItemService {
         itemDesc.setUpdated(new Date());
 
         itemDescMapper.insertSelective(itemDesc);
+
+        //添加商品完毕之后，要记得发送消息给MQ   (此乃生产者)
+        jms.convertAndSend("item-save",id);
 
         return result;
 

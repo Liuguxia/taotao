@@ -77,6 +77,11 @@ public class Item implements java.io.Serializable {
     @Column(name = "UPDATED", nullable = false)
     private Date updated;
 
+    //分割图片
+    public String[] getImages(){
+        return image.split(",");
+    }
+
     /**
      * 获取商品id，同时也是商品编号
      * 
