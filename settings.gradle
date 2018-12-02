@@ -12,4 +12,6 @@ include 'taotao-search-interface'
 include 'taotao-search-service'
 include 'taotao-search-web'
 include 'taotao-item-web'
+include 'taotao-cart-service'
+include 'taotao-cart-interface'
 

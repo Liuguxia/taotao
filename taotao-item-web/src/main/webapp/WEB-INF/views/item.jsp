@@ -33,10 +33,20 @@
 			}
 		};
 		
-		function submitItem(){
-			var num = $("#buy-num").val();
-    		window.location.href= "http://www.taotao.com/cart/${item.id}.html?num="+num;
-    	}
+        <%--function submitItem(){--%>
+			<%--var num = $("#buy-num").val();--%>
+    		<%--window.location.href= "http://www.taotao.com/cart/${item.id}.html?num="+num;--%>
+    	<%--}--%>
+
+		//添加商品到购物车，带参数，参数是商品的数量
+		function addToCart() {
+		    //1.获取购买数量
+			var num=$("#buy-num").val();
+
+			//跳转地址  http://www.taotao.com/cart/add/1187781.html?num=3
+			location.href="http://www.taotao.com/cart/add/${item.id}.html?num="+num;
+
+        }
 	</script>
 </head>
 <body version="140120">
@@ -140,7 +150,8 @@
 		        <li id="choose-result"><div class="dt"></div><div class="dd"></div></li>
 				<li id="choose-btns">
 					<div id="choose-btn-append"  class="btn">
-							<a class="btn-append " id="InitCartUrl" href="http://www.taotao.com/cart/add/${item.id}.html" clstag="shangpin|keycount|product|initcarturl">加入购物车<b></b></a>
+							<%--<a class="btn-append " id="InitCartUrl" href="http://www.taotao.com/cart/add/${item.id}.html" clstag="shangpin|keycount|product|initcarturl">加入购物车<b></b></a>--%>
+							<a class="btn-append " id="InitCartUrl" href="#" onclick="addToCart()" clstag="shangpin|keycount|product|initcarturl">加入购物车<b></b></a>
 					</div>
 					<div id="choose-btn-easybuy" class="btn"></div>
 					<div id="choose-btn-divide" class="btn"></div>
