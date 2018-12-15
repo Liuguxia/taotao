@@ -20,4 +20,10 @@ public interface CarService {
      */
 
     List<Cart> queryCartByUserId(long userId);
+
+    //更新购物车的数量
+    void updateNumByCart(long userId,long itemId,int num);
+
+    //删除购物车的商品
+    void deleteItemByCart  (long userId,long itemId);
 }

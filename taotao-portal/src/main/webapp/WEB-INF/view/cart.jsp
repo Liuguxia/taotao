@@ -75,13 +75,19 @@
 		            <div class="cell p-promotion">
 		            </div>
 		            <div class="cell p-inventory stock-11345721">有货</div>
+
+
 		            <div class="cell p-quantity" for-stock="for-stock-11345721">
 		                <div class="quantity-form" data-bind="">
 		                    <a href="javascript:void(0);" class="decrement" clstag="clickcart|keycount|xincart|diminish1" id="decrement">-</a>
+
 		                    <input type="text" class="quantity-text" itemPrice="${cart.itemPrice}" itemId="${cart.itemId}" value="${cart.num }" id="changeQuantity-11345721-1-1-0">
+
 		                    <a href="javascript:void(0);" class="increment" clstag="clickcart|keycount|xincart|add1" id="increment">+</a>
 		                </div>
 		            </div>
+
+
 		            <div class="cell p-remove"><a id="remove-11345721-1" data-more="removed-87.20-1" clstag="clickcart|keycount|xincart|btndel318558" class="cart-remove" href="/cart/delete/${cart.itemId}.shtml">删除</a>
 		            </div>
 		        </div>

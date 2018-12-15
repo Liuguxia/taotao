@@ -7,17 +7,21 @@ import com.itheima.mapper.ItemMapper;
 import com.itheima.pojo.Cart;
 import com.itheima.pojo.Item;
 import com.itheima.service.CarService;
+import com.itheima.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Service
 public class CartServiceImpl implements CarService {
+
+    private static final String CART_KEY="iitcart_";
 
     @Autowired
     private ItemMapper itemMapper;
@@ -94,6 +98,60 @@ public class CartServiceImpl implements CarService {
         //为空，则表示第一次来添加shangp到购物车，所以redis里面不会有任何数据，直接返回一个空的购物车
         return new ArrayList<Cart>();
     }
+
+    //更新购物车的商品数量
+    @Override
+    public void updateNumByCart(long userId, long itemId, int num) {
+        //1.已登录，获取购物车--redis
+        String json = redisTemplate.opsForValue().get("iitcart_" + userId);
+
+        //2.把json字符串转化成List<Cart>
+        List<Cart> cartList=new Gson().fromJson(json,new TypeToken<List<Cart>>(){}.getType());
+
+        //3.遍历购物车，更新对应商品的数量
+        for (Cart cart : cartList) {
+            if (itemId==cart.getItemId()){
+                cart.setNum(num);
+                cart.setUpdate(new Date());
+                break;
+            }
+        }
+        //4.重新存储购物车到redis
+        json = new Gson().toJson(cartList);
+        redisTemplate.opsForValue().set(CART_KEY + userId,json);
+    }
+
+    //删除购物车的商品
+    @Override
+    public void deleteItemByCart(long userId, long itemId) {
+//        //1.已登录，获取购物车--redis
+//        String json=redisTemplate.opsForValue().get(CART_KEY+userId);
+//        //2.把json字符串转化为List<Cart>
+//        List<Cart> cartList = new Gson().fromJson(json, new TypeToken<List<Cart>>(){}.getType());
+        /*使用工具类
+            1.已登录，获取购物车--redis
+            2.把json字符串转化为List<Cart>
+         */
+        List<Cart> cartList = RedisUtil.findCartFromRedis(redisTemplate, CART_KEY + userId);
+
+        //3.遍历，进行删除操作
+        for (Cart cart : cartList) {
+            if (itemId==cart.getItemId() ){
+                //从list移除这个商品
+                cartList.remove(cart);
+                break;
+            }
+        }
+//        //4.重新存储购物车到redis
+//        json=new Gson().toJson(cartList);
+//        redisTemplate.opsForValue().set(CART_KEY+userId,json);
+        //使用工具类，crud后，重新保存购物车到Redis
+        RedisUtil.saveCartToRedis(redisTemplate,cartList,CART_KEY+userId);
+    }
+
+
+
+
 
 
     //测试
