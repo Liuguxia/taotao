@@ -1,4 +1,4 @@
-package com.itheima.service.impl;
+package com.itheima.cart.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.mapper.UserMapper;
@@ -7,7 +7,6 @@ import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Date;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {

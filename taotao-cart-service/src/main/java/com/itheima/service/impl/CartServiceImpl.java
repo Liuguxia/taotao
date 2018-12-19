@@ -10,16 +10,23 @@ import com.itheima.service.CarService;
 import com.itheima.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 @Service
 public class CartServiceImpl implements CarService {
+    /*
+        本实现类，是针对登录状态下的操作的，因为用户数据保存在redis里面，故不需要对redis的json数据
+        进行url编码和解码，相反，cookie则需要，因为他对空格，百分号这些识别不出来，
+        todo：需要去看看登录的操作，在portal模块的IndexController，看看redis和cookie之间怎么使用
+     */
 
     private static final String CART_KEY="iitcart_";
 
@@ -75,16 +82,35 @@ public class CartServiceImpl implements CarService {
 
         //把这个list集合保存到redis中
         String json = new Gson().toJson(cartList);
+        //对字符串内进行url编码，那些空格都会变成%20
+//            try {
+//                json=URLEncoder.encode(json,"utf-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+
         System.out.println("现在购物车的商品有"+json);
+
         redisTemplate.opsForValue().set("iitcart_" + userId,json);
     }
 
-    //根据用户的id查询它对应的购物车数据
+    //根据用户的id来查询它对应的购物车数据
     @Override
     public List<Cart> queryCartByUserId(long userId) {
 
         //1.根据用户id查询redis，获取以前的购物车数据，是一个json数据
         String json = redisTemplate.opsForValue().get("iitcart_" + userId);
+
+        /*
+            自己写的对字符串进行url解码
+         */
+//        try {
+//            json=URLDecoder.decode(json,"utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+
+
 
         //第一次加入购物车，判定json是否为空
         if (!StringUtils.isEmpty(json)){
@@ -118,6 +144,14 @@ public class CartServiceImpl implements CarService {
         }
         //4.重新存储购物车到redis
         json = new Gson().toJson(cartList);
+
+        //把json的字符串进行url解码(自己写)
+//        try {
+//            json=URLEncoder.encode(json,"utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+
         redisTemplate.opsForValue().set(CART_KEY + userId,json);
     }
 
@@ -134,14 +168,24 @@ public class CartServiceImpl implements CarService {
          */
         List<Cart> cartList = RedisUtil.findCartFromRedis(redisTemplate, CART_KEY + userId);
 
-        //3.遍历，进行删除操作
-        for (Cart cart : cartList) {
-            if (itemId==cart.getItemId() ){
-                //从list移除这个商品
-                cartList.remove(cart);
-                break;
+        //3.遍历，进行删除操作（为确保万无一失，选用迭代器删除）
+        Iterator<Cart> iterator = cartList.iterator();
+        while (iterator.hasNext()){
+            Cart cart = iterator.next();
+            if (cart.getItemId()==itemId){
+                iterator.remove();
             }
         }
+//        for (Cart cart : cartList) {
+//            if (itemId==cart.getItemId() ){
+//                //从list移除这个商品
+//                cartList.remove(cart);
+//                //break;
+//            }
+//        }
+
+
+
 //        //4.重新存储购物车到redis
 //        json=new Gson().toJson(cartList);
 //        redisTemplate.opsForValue().set(CART_KEY+userId,json);
