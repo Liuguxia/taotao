@@ -89,7 +89,7 @@ public class CartServiceImpl implements CarService {
 //                e.printStackTrace();
 //            }
 
-        System.out.println("现在购物车的商品有"+json);
+        System.out.println("现在购物车的商品有  ： "+json);
 
         redisTemplate.opsForValue().set("iitcart_" + userId,json);
     }
