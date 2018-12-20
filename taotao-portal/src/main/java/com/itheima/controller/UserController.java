@@ -1,10 +1,13 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.cart.CarMergeService;
 import com.itheima.pojo.User;
 
 import com.itheima.service.UserService;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.jboss.netty.handler.codec.http.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,11 @@ public class UserController {
 
     @Reference
     private UserService userService;
+
+    //在登录成功之后合并购物车
+    @Autowired
+    private CarMergeService carMergeService;
+
 
     @PostMapping("/user/doRegister.shtml")
     @ResponseBody
@@ -53,7 +61,7 @@ public class UserController {
      */
     @PostMapping("/user/doLogin.shtml")
     @ResponseBody
-    public Map<String,String> login(User user, HttpServletResponse response){
+    public Map<String,String> login(User user, HttpServletResponse response, HttpServletRequest request){
         System.out.println(user);
 
         Map<String,String> map=new HashMap<>();
@@ -63,6 +71,10 @@ public class UserController {
         System.out.println("loginUser=" + ticket);
         //ticket不是空的话，表示登录成功，并且也存到redis里
         if (!StringUtils.isEmpty(ticket)){
+            //合并购物车
+            System.out.println("登录成功，现在要去合并购物车了");
+            carMergeService.mergeCart(ticket,request,response);
+
 
             //把用户登录过后的凭证放到cookie里面
             Cookie cookie = new Cookie("ticket",ticket);

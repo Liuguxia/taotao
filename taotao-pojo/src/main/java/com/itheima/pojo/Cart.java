@@ -2,6 +2,7 @@ package com.itheima.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class Cart implements Serializable {
     private Long id;
@@ -28,6 +29,21 @@ public class Cart implements Serializable {
         this.num = num;
         this.create = create;
         this.update = update;
+    }
+
+    //合并购物车，只有两个商品的id一样，就是同一件商品
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart cart = (Cart) o;
+        return Objects.equals(itemId, cart.itemId);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(itemId);
     }
 
     public Long getId() {

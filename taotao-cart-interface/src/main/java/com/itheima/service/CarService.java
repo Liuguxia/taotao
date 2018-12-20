@@ -26,4 +26,8 @@ public interface CarService {
 
     //删除购物车的商品
     void deleteItemByCart  (long userId,long itemId);
+
+    //合并购物车
+    //因为request，跨模块，要实现序列化接口，但此类封装，故不能被Spring调用，所以合并代码不在此写
+    //void mergeCart();
 }

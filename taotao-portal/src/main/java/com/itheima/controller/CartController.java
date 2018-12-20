@@ -1,6 +1,7 @@
 package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.cart.CarMergeService;
 import com.itheima.pojo.Cart;
 import com.itheima.pojo.User;
 import com.itheima.service.CarService;

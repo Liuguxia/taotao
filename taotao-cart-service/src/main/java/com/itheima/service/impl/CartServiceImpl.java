@@ -193,9 +193,17 @@ public class CartServiceImpl implements CarService {
         RedisUtil.saveCartToRedis(redisTemplate,cartList,CART_KEY+userId);
     }
 
-
-
-
+//    //合并购物车cookie+redis
+//    @Override
+//    public void mergeCart(RedisTemplate<String,String> template,long userId) {
+//        //1.获取cookie购物车---request
+//
+//        //2.获取redis购物车（为准）
+//        List<Cart> redisList  = RedisUtil.findCartFromRedis(redisTemplate, CART_KEY + userId);
+//        //3.遍历购物车，判断重复商品，增加数量，合并成一个集合
+//        //4.再存到redis中
+//
+//    }
 
 
     //测试
