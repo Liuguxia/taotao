@@ -29,10 +29,12 @@ public class IndexController {
     @Reference
     private ContentService contentService;
 
-    //www.taotoa.com/register.html
+    //www.taotoa.com/register.html，，，通用页面？？？2018.12.20
     @RequestMapping("/page/{pageName}")
-    public String page(@PathVariable String pageName){
+    public String page(@PathVariable String pageName,String url,HttpServletRequest request){
 
+        request.setAttribute("url",url);
+        //这个方法会跳转到登录页面
         return pageName;
     }
 

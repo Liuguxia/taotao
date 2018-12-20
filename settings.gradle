@@ -14,4 +14,5 @@ include 'taotao-search-web'
 include 'taotao-item-web'
 include 'taotao-cart-service'
 include 'taotao-cart-interface'
+include 'taotao-interceptor'
 

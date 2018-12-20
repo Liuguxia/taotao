@@ -12,6 +12,7 @@ import org.springframework.util.DigestUtils;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -62,8 +63,9 @@ public class UserServiceImpl implements UserService {
             String key="iit02_"+UUID.randomUUID().toString();
 
             System.out.println("key-----" + key+"  "+json);
-            //把json存到redis
+            //把用户数据json存到redis里面
             redisTemplate.opsForValue().set(key,json);
+            //redisTemplate.opsForValue().set(key,json,7,TimeUnit.HOURS);
             System.out.println("7");
             return key;
         }

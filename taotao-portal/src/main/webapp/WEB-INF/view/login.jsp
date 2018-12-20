@@ -200,6 +200,9 @@
    });
    
    $("#loginsubmit").click(function () {
+       //获取从通用方法里面拿的参数值
+       var redirectUrl="${url}";
+
 	    var flag = validateFunction.FORM_validate();
 	    if (flag) {
 	        var uuid = $("#uuid").val();
@@ -223,6 +226,16 @@
 	                    var obj = eval(result);
 	                    if (obj.status == 200) {
                     		//登录成功，跳转到首页
+                            console.log("登录成功了，现在要跳转页面")
+                            //获取从通用方法里面拿的参数值
+                            //var redirectUrl="${url}";
+                            if(redirectUrl){//此处的if是因为redirectUrl不一定是从没登录到生成预订单带过来的url
+                                obj.success="http://www.taotao.com"+redirectUrl;//url:/order/order-cart.shtml
+                            }else {
+                                obj.success="http://www.taotao.com";
+                            }
+                            console.log("obj.success"+obj.success);
+
 	                        var isIE = !-[1,];
 	                        if (isIE) {
 	                            var link = document.createElement("a");
