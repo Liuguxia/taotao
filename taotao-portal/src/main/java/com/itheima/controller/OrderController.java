@@ -2,8 +2,10 @@ package com.itheima.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.pojo.Cart;
+import com.itheima.pojo.Order;
 import com.itheima.pojo.User;
 import com.itheima.service.CarService;
+import com.itheima.service.OrderService;
 import com.itheima.utils.CookieUtil;
 import com.itheima.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,11 @@ public class OrderController {
     private RedisTemplate<String,String> template;
     @Reference
     private CarService carService;
+    @Reference
+    private OrderService orderService;
 
 
-    //跳转到预览订单页面
+    //跳转到预览订单页面(去结算订单)
     //http://www.taotao.com/order/order-cart.shtml  登不登录都是使用这个路径，故使用拦截器
     @RequestMapping("/order/order-cart.shtml")
     public String create(HttpServletRequest request,Model model){
@@ -43,5 +47,26 @@ public class OrderController {
         model.addAttribute("carts",carts);
 
         return "order-cart";
+    }
+
+    //提交订单  http://www.taotao.com/service/order/submit
+    @RequestMapping("/service/order/submit")
+    public String sumbitOrder(Order order,HttpServletRequest request){
+        //1.给订单设置下单的用户，谁提交的订单
+            //先查询用户
+        String ticket = CookieUtil.findTicket(request);
+        User user=RedisUtil.findUserByTicket(template,ticket);
+
+        order.setUserId(user.getId());
+        order.setBuyerNick(user.getUsername());  //买家昵称
+        //2.执行订单的添加操作，然后返回订单的id
+        String orderId = orderService.saveOrder(order);
+        System.out.println("orderId=" + orderId);
+        //3.把订单的id封装到结果，然后抛出给页面
+
+
+        System.out.println("order "+order);
+
+        return null;
     }
 }

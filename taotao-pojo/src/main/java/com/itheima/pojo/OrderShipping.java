@@ -281,4 +281,21 @@ public class OrderShipping implements java.io.Serializable {
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
+
+    @Override
+    public String toString() {
+        return "OrderShipping{" +
+                "orderId='" + orderId + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                ", receiverPhone='" + receiverPhone + '\'' +
+                ", receiverMobile='" + receiverMobile + '\'' +
+                ", receiverState='" + receiverState + '\'' +
+                ", receiverCity='" + receiverCity + '\'' +
+                ", receiverDistrict='" + receiverDistrict + '\'' +
+                ", receiverAddress='" + receiverAddress + '\'' +
+                ", receiverZip='" + receiverZip + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
 }

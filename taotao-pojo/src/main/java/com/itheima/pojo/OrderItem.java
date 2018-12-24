@@ -212,4 +212,18 @@ public class OrderItem implements java.io.Serializable {
     public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id='" + id + '\'' +
+                ", itemId='" + itemId + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", num=" + num +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", totalFee=" + totalFee +
+                ", picPath='" + picPath + '\'' +
+                '}';
+    }
 }

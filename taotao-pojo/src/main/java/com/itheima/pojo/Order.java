@@ -13,10 +13,8 @@
 package com.itheima.pojo;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  * TB_ORDER
@@ -98,6 +96,30 @@ public class Order implements java.io.Serializable {
     /** 买家是否已经评价 */
     @Column(name = "BUYER_RATE", nullable = true, length = 10)
     private Integer buyerRate;
+
+    //表示这条订单里面都买了什么商品
+    @Transient  //表示在和数据表做映射的时候，忽略这个字段，也就是不要映射
+    private List<OrderItem> orderItems;
+
+    //表示这条订单的送货地址
+    @Transient  //表示在和数据表做映射的时候，忽略这个字段，也就是不要映射
+    private OrderShipping orderShipping;
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public OrderShipping getOrderShipping() {
+        return orderShipping;
+    }
+
+    public void setOrderShipping(OrderShipping orderShipping) {
+        this.orderShipping = orderShipping;
+    }
 
     /**
      * 获取订单id
@@ -420,5 +442,30 @@ public class Order implements java.io.Serializable {
      */
     public void setBuyerRate(Integer buyerRate) {
         this.buyerRate = buyerRate;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId='" + orderId + '\'' +
+                ", payment='" + payment + '\'' +
+                ", paymentType=" + paymentType +
+                ", postFee='" + postFee + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", paymentTime=" + paymentTime +
+                ", consignTime=" + consignTime +
+                ", endTime=" + endTime +
+                ", closeTime=" + closeTime +
+                ", shippingName='" + shippingName + '\'' +
+                ", shippingCode='" + shippingCode + '\'' +
+                ", userId=" + userId +
+                ", buyerMessage='" + buyerMessage + '\'' +
+                ", buyerNick='" + buyerNick + '\'' +
+                ", buyerRate=" + buyerRate +
+                ", orderItems=" + orderItems +
+                ", orderShipping=" + orderShipping +
+                '}';
     }
 }
