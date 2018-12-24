@@ -8,14 +8,20 @@ import com.itheima.service.CarService;
 import com.itheima.service.OrderService;
 import com.itheima.utils.CookieUtil;
 import com.itheima.utils.RedisUtil;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -51,7 +57,8 @@ public class OrderController {
 
     //提交订单  http://www.taotao.com/service/order/submit
     @RequestMapping("/service/order/submit")
-    public String sumbitOrder(Order order,HttpServletRequest request){
+    @ResponseBody
+    public Map<String,Object> sumbitOrder(Order order,HttpServletRequest request){
         //1.给订单设置下单的用户，谁提交的订单
             //先查询用户
         String ticket = CookieUtil.findTicket(request);
@@ -63,10 +70,36 @@ public class OrderController {
         String orderId = orderService.saveOrder(order);
         System.out.println("orderId=" + orderId);
         //3.把订单的id封装到结果，然后抛出给页面
+        Map<String,Object> map=new HashMap<>();
+        map.put("status",200);
+        map.put("data",orderId);
 
 
         System.out.println("order "+order);
 
-        return null;
+        return map;
     }
+
+    //点击提交订单之后跳转到---http://www.taotao.com/order/success.html?id=226
+    //也就是显示订单
+    /*
+        提交完订单之后，来到这个方法，然后由这个方法根据id去查询订单信息，再跳转到订单详情页面
+     */
+    //@RequestMapping("/order/success.html?id={orderId}")
+    @RequestMapping("/order/success.html")   //get的请求
+    public String showOrder(String id,Model model){
+        //1.根据订单id，查询订单对象
+        Order order = orderService.queryOrderByOrderId(id);
+        model.addAttribute("order",order);
+
+        //到达时间
+        String date=new DateTime().plusDays(2).toString("yyyy年MM月dd日HH时mm分ss秒SSS毫秒");
+
+        model.addAttribute("date",date);
+
+        //跳转到success页面
+        return "success";
+    }
+
+
 }

@@ -8,7 +8,9 @@ import com.itheima.pojo.Order;
 import com.itheima.pojo.OrderItem;
 import com.itheima.pojo.OrderShipping;
 import com.itheima.service.OrderService;
+import com.itheima.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -23,14 +25,19 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private OrderShippingMapper orderShippingMapper;
+    @Autowired
+    private RedisTemplate<String,String> template;
 
     //提交订单，返回订单号
     //下一条订单，就要往三张表填东西（订单明细表，商品表，物流表）
     @Override
     public String saveOrder(Order order) {
         //设置订 单id
-        String ordeId=order.getUserId()+new Random().nextInt(10000)+"";
-        order.setOrderId(ordeId);
+        //String ordeId=order.getUserId()+new Random().nextInt(10000)+"";
+        long useId=order.getUserId();
+        String orderId = useId+RedisUtil.getOrderId(template, "order_" + useId);
+        order.setOrderId(orderId);
+        System.out.println("====orderId+++++"+orderId);
         //设置订单的状态----未付款：1
         order.setStatus(1);
         //设置订单的下单时间
@@ -49,16 +56,38 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = order.getOrderItems();
         for (OrderItem orderItem : orderItems) {
             orderItem.setId(UUID.randomUUID().toString().replace("-",""));
-            orderItem.setOrderId(ordeId);
+            orderItem.setOrderId(orderId);
             orderItemMapper.insertSelective(orderItem);
         }
 
         //3.往物流表添加记录---要给物流信息设置属于那一条订单
         OrderShipping shipping = order.getOrderShipping();
-        shipping.setOrderId(ordeId);//给物流信息设置属于那一条订单
+        shipping.setOrderId(orderId);//给物流信息设置属于那一条订单
         shipping.setCreated(new Date());
         shipping.setUpdated(shipping.getCreated());
         orderShippingMapper.insertSelective(shipping);
-        return ordeId;
+        return orderId;
+    }
+
+    @Override
+    public Order queryOrderByOrderId(String orderId) {
+        //订单信息是存放在三张表里面，tb_order,tb_order_item,tb_order_shipping
+        //要查看某一条订单的信息，就必须查询三张表
+        //1.查询订单表
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        //2.查询订单商品条目表
+        OrderItem item=new OrderItem();
+        item.setOrderId(orderId);
+        List<OrderItem> orderItems = orderItemMapper.select(item);//因为select查询需要的是对象，而不是主键
+
+        order.setOrderItems(orderItems);
+        //3.查询订单物流表
+//        OrderShipping shipping=new OrderShipping();
+//        shipping.setOrderId(orderId);
+//        List<OrderShipping> orderShippings = orderShippingMapper.select(shipping);
+        OrderShipping shipping = orderShippingMapper.selectByPrimaryKey(orderId);
+        order.setOrderShipping(shipping);
+
+        return order;
     }
 }
