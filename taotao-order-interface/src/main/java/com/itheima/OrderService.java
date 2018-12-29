@@ -1,4 +1,4 @@
-package com.itheima.service;
+package com.itheima;
 
 import com.itheima.pojo.Order;
 
@@ -7,5 +7,7 @@ public interface OrderService {
     String saveOrder(Order order);
     //根据orderId去查询订单信息
     Order queryOrderByOrderId(String orderId);
+    //清除无效订单
+    void clearOrder();
 
 }

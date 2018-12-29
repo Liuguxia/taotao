@@ -7,14 +7,15 @@ import com.itheima.mapper.OrderShippingMapper;
 import com.itheima.pojo.Order;
 import com.itheima.pojo.OrderItem;
 import com.itheima.pojo.OrderShipping;
-import com.itheima.service.OrderService;
+import com.itheima.OrderService;
 import com.itheima.util.RedisUtil;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Service //对外提供服务
@@ -89,5 +90,28 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderShipping(shipping);
 
         return order;
+    }
+
+    @Override
+    public void clearOrder() {
+        /*
+            订单状态：1、未付款，2、已付款，3、未发货，4、已发货，5、交易成功，6、交易关闭
+         */
+        //清除无效订单(更新订单，状态为1，时间为2天前)
+        Example example=new Example(Order.class);
+        Example.Criteria criteria=example.createCriteria();
+        //设置例子的条件
+        criteria.andEqualTo("status",1);//相当于where status=1
+        criteria.andEqualTo("paymentType",1);//相当于支付为在线支付
+
+        criteria.andLessThanOrEqualTo("createTime",new DateTime().minusDays(2).toDate());
+
+
+        Order order=new Order();
+        order.setStatus(6);//交易关闭
+        order.setCloseTime(new Date());
+
+        int rows = orderMapper.updateByExampleSelective(order, example);
+        System.out.println("rows:"+rows);
     }
 }
